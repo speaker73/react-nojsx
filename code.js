@@ -25,6 +25,9 @@ var styles = {
     cursor:'pointer'
   },
   contactDiv:{
+    display: 'flex',
+    alignItems:'center',
+    justifyContent:'space-between',
     margin:'2px',
     padding:'20px',
     border:'#eee solid 1px'
@@ -36,7 +39,21 @@ var styles = {
   container:{
           margin:'20px auto', 
           width:'960px'
-        }
+        },
+  leftBlock:{
+
+  },
+  buttom:{
+    cursor:'pointer',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor:'green',
+    color:'white',
+    borderRadius:'5px',
+    minWidth:'70px',
+    minHeight:'50px'
+  }
 };
 var ContactItem = React.createClass({
   propTypes: {
@@ -54,8 +71,11 @@ var ContactItem = React.createClass({
    onNameClick: function(focusedForm, name) {
    this.setState({isEdit:'You are focused on '+name+'`s '+focusedForm+'!', isEditColor:'blue', clickCount:this.state.clickCount+1})
   },
+  onEdit:function(name){
+    alert("Oops, I don't add this from this time!")
+  },
   render: function() {
- var self = this;
+  var self = this;
     return (
         e('div', {style:styles.container},
           e('h2', {style:styles.name }, this.props.name),
@@ -64,8 +84,9 @@ var ContactItem = React.createClass({
             this.props.array.map(function(item){
               return e('div', {
                                 style:styles.contactDiv
-                              }, 
-                  e('input', {
+                              },
+                    e('div',{style:styles.leftBlock},
+                    e('input', {
                               onFocus:function(){
                                                  self.onNameClick('name', item.name)
                                                 },
@@ -86,6 +107,14 @@ var ContactItem = React.createClass({
                               style:styles.input,
                               value:item.email
                               })
+                  ),
+                  e('div',{},
+                      e('div', {
+                        onClick:function(){
+                        self.onEdit(item.name)
+                      },style:styles.buttom}, 'Edit')
+                    )             
+                  
                 )
             })
           )
